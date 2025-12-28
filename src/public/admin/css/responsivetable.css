@@ -1,0 +1,177 @@
+@media (max-width: 575.98px) {
+  #responsive-data-table_filter {
+    width: 100% !important;
+  }
+}
+.responsive-data-table .table {
+  border-top: 0;
+  margin: 25px 0 !important;
+}
+.responsive-data-table .table.table-borderless thead th {
+  border-bottom: 1px solid transparent;
+}
+.responsive-data-table .table-bordered thead th,
+.responsive-data-table .table-bordered thead td {
+  border-bottom-width: 1px;
+}
+.responsive-data-table .table thead th {
+  border-bottom: 1px solid #f3f3f3;
+}
+.responsive-data-table thead th,
+.responsive-data-table tbody tr td:first-child {
+  color: #1b223c;
+  font-weight: 500;
+  font-size: 14px;
+}
+.responsive-data-table table.dataTable > tbody > tr.child span.dtr-title {
+  font-weight: 500;
+}
+.responsive-data-table .top-information,
+.responsive-data-table .bottom-information {
+  padding: 0 15px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.responsive-data-table .dataTables_filter {
+  display: inline-block !important;
+}
+.responsive-data-table .dataTables_filter label {
+  margin-bottom: 0;
+}
+.responsive-data-table .dataTables_filter label .form-control-sm {
+  height: 30px;
+  border-radius: 10px;
+}
+.responsive-data-table .dataTables_length {
+  display: inline-block !important;
+}
+.responsive-data-table .dataTables_length label {
+  margin-bottom: 0;
+}
+.responsive-data-table .dataTables_length label .custom-select-sm {
+  height: 30px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.responsive-data-table .dataTables_length .custom-select {
+  background: transparent;
+}
+.responsive-data-table .dataTables_info {
+  padding-top: 7px !important;
+}
+@media (min-width: 768px) {
+  .responsive-data-table .dataTables_info {
+    margin-bottom: 0;
+    opacity: 0;
+  }
+}
+@media (min-width: 992px) {
+  .responsive-data-table .dataTables_info {
+    padding-top: 1.2em !important;
+    opacity: 1;
+  }
+}
+@media (min-width: 1200px) {
+  .responsive-data-table .dataTables_info {
+    padding-top: 1em !important;
+  }
+}
+.responsive-data-table .pagination .disabled .page-link {
+  background-color: transparent !important;
+}
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > td:first-child:before,
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > th:first-child:before {
+  background-color: #34c997;
+  top: 14px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  border: 0;
+  font-weight: bold;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr.parent
+  > td:first-child:before,
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr.parent
+  > th:first-child:before {
+  background-color: #ddaa04;
+}
+.responsive-data-table table.dataTable.hover tbody tr:hover,
+.responsive-data-table table.dataTable.display tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+#responsive-data-table_previous .page-link,
+#responsive-data-table_next .page-link,
+#expendable-data-table_previous .page-link,
+#expendable-data-table_next .page-link {
+  background-color: #e9ecef;
+}
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > td:first-child,
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > th:first-child {
+  padding-left: 40px;
+}
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > td:first-child:before,
+.responsive-data-table
+  table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > th:first-child:before {
+  left: 10px;
+}
+#responsive-data-table_filter label {
+  width: 100%;
+}
+#responsive-data-table_filter label input {
+  width: 70%;
+  height: 2.5rem;
+  border-radius: 5px;
+  font-size: 1.6rem;
+}
+div.dataTables_wrapper div.dataTables_length,
+div.dataTables_wrapper div.dataTables_filter {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  width: 50%;
+}
+div.dataTables_wrapper div.dataTables_length label,
+#responsive-data-table_filter label {
+  font-size: 1.6rem;
+}
+div.dataTables_wrapper div.dataTables_length label select {
+  height: 2.5rem;
+  font-size: 1.4rem;
+}
+div.table-responsive > div.dataTables_wrapper > div.top-information {
+  padding: 2rem 0rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}

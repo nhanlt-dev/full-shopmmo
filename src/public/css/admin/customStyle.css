@@ -1,0 +1,119 @@
+.mr94 {
+  margin-right: 0.94rem;
+}
+.btn-edit,
+.btn-delete {
+  width: 4.5rem;
+}
+.btn-add {
+  margin-right: 3rem;
+}
+.jcc {
+  justify-content: center;
+}
+.jcse {
+  justify-content: space-evenly;
+}
+.jcsa {
+  justify-content: space-around;
+}
+.text-decoration-none {
+  text-decoration: none !important;
+}
+#responsive-data-table_filter label {
+  width: 100%;
+}
+#responsive-data-table_filter label input {
+  width: 70%;
+}
+.bottom-information {
+  padding-right: 3rem;
+}
+.form-checkbox-box {
+  height: 2rem;
+}
+.checkbox-role {
+  height: 100%;
+  width: 100%;
+}
+.checkbox-role input {
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: translateY(0.5rem);
+  margin-bottom: 1rem;
+}
+.pd1rem {
+  padding: 0.75rem;
+}
+.admin-upload {
+  margin-top: 3rem !important;
+}
+.toggle-password {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+.toggle-password i {
+  font-size: 1.5rem;
+}
+.thprice {
+  width: 8rem;
+}
+.clstart {
+  color: gold;
+}
+.rvstart {
+  font-size: 1rem;
+}
+.rvstartEdit {
+  font-size: 2.5rem;
+}
+.bannerAdmin {
+  padding-left: 20%;
+  margin-bottom: 3rem;
+}
+.ipPreview {
+  width: 35rem !important;
+}
+.sliderEdit {
+  right: -0.5rem !important;
+}
+.aic {
+  align-items: center;
+}
+.h6rem {
+  height: 6.5rem;
+}
+.imgReview {
+  width: 5rem !important;
+}
+.quickUserReview {
+  align-items: center;
+}
+.reviewDashboad i {
+  font-size: 1rem !important;
+}
+.banner-edit {
+  top: 6px !important;
+  right: 0.5rem !important;
+}
+.mt2rem {
+  margin-top: 2rem;
+}
+.jcsb {
+  justify-content: space-between;
+}
+.thumbDetalBanner {
+  margin-left: 0.5rem !important;
+}
+.imagePreview {
+  overflow: hidden;
+}
+.site-header {
+  position: relative;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

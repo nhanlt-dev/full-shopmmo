@@ -1,0 +1,116 @@
+##Options +FollowSymLinks All
+RewriteEngine On
+
+Options -Indexes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route to trangchu
+RewriteRule ^trangchu$                                        index.php [L]
+
+RewriteRule ^404/?$                                           index.php?thamso=notFound [L]
+# Route to logout
+RewriteRule ^logout/$                                         index.php?thamso=logout [L]
+RewriteRule ^reSendOTP/$                                      index.php?thamso=reSendOTP [L]
+# Route to about-us
+RewriteRule ^gioithieu/$                                      index.php?thamso=aboutUs [L]
+
+RewriteRule ^chinhsach/([a-zA-Z0-9_-]+)$                      index.php?thamso=policy&url=$1 [L]
+# Route to contact
+RewriteRule ^lienhe/$                                         index.php?thamso=contactDetails [L]
+# Route to services
+RewriteRule ^dichvu/([a-zA-Z0-9_-]+)/$                        index.php?thamso=serviceDetail&service=$1 [L]
+# Route to search
+RewriteRule ^search/([a-zA-Z0-9_-]+)/$                        index.php?thamso=searchPages&query=$1 [L]
+RewriteRule ^search/([a-zA-Z0-9_-]+)/([0-9]+)/$               index.php?thamso=searchPages&query=$1&page=$2 [L]
+# Route to search product
+
+# Route to news
+RewriteRule ^tintuc/$                                         index.php?thamso=news [L]
+RewriteRule ^tintuc/Trang/([0-9]+)/$                          index.php?thamso=news&page=$1 [L]
+# Route to detailed news
+RewriteRule ^tintuc/([a-zA-Z0-9_-]+)/$                        index.php?thamso=newsDetails&url=$1 [L]
+
+# Route to Page
+RewriteRule ^quangba/$                                        index.php?thamso=pages [L]
+RewriteRule ^quangba/([0-9]+)/$                               index.php?thamso=pages&page=$1 [L]
+# Route to Product by type
+RewriteRule ^quangba/([a-zA-Z0-9_-]+)/$                       index.php?thamso=pageTypes&url=$1 [L]
+RewriteRule ^quangba/([a-zA-Z0-9_-]+)/([0-9]+)/$              index.php?thamso=pageTypes&url=$1&page=$2 [L]
+# Route to detailed Page
+RewriteRule ^([a-zA-Z0-9_-]+)/$                               src/services/Pages/pageDetail.php?url=$1 [L]
+
+
+# Route to dashboard
+RewriteRule ^Admin/dashboard/$                                index.php?thamso=dashboard [L]
+# Route to configuration
+RewriteRule ^Admin/configuration/$                            index.php?thamso=configuration [L]
+RewriteRule ^Admin/configuration/historysystem/$              index.php?thamso=historySystem [L]
+RewriteRule ^Admin/deletehistory/([a-z]+)/([a-z]+)/([0-9]+)/$ index.php?thamso=deleteHistory&type=$1&url=$2&id=$3 [L]
+RewriteRule ^Admin/deleteall/([a-z]+)/([a-z]+)/([a-z_]+)/$     index.php?thamso=deleteAllHistory&type=$1&url=$2&key=$3 [L]
+# Route to previewCustomerPage
+RewriteRule ^Admin/previewCustomerPage/([0-9]+)/$             index.php?thamso=previewCustomerPage&id=$1 [L]
+# Route to themeCustommer
+RewriteRule ^Admin/themeCustomer/([0-9]+)/$                   src/Services/Pages/pageDetail.php?id=$1 [L]
+# Route to users
+RewriteRule ^Admin/users/listuser/$                           index.php?thamso=listUser [L]
+RewriteRule ^Admin/users/adduser/$                            index.php?thamso=addUser [L]
+RewriteRule ^Admin/users/edituser/([0-9]+)/$                  index.php?thamso=editUser&id=$1 [L]
+RewriteRule ^Admin/users/deleteuser/([0-9]+)/$                index.php?thamso=deleteUser&id=$1 [L]
+RewriteRule ^Admin/users/historyuser/$                        index.php?thamso=historyUser [L]
+# Route to news
+RewriteRule ^Admin/news/listnews/$                            index.php?thamso=listNews [L]
+RewriteRule ^Admin/news/addnews/$                             index.php?thamso=addNews [L]
+RewriteRule ^Admin/news/editnews/([0-9]+)/$                   index.php?thamso=editNews&id=$1 [L]
+RewriteRule ^Admin/news/deletenews/([0-9]+)/$                 index.php?thamso=deleteNews&id=$1 [L]
+RewriteRule ^Admin/news/historynews/$                         index.php?thamso=historyNews [L]
+# Route to page
+RewriteRule ^Admin/pages/listpage/$                           index.php?thamso=listPage [L]
+RewriteRule ^Admin/pages/addpage/$                            index.php?thamso=addPage [L]
+RewriteRule ^Admin/pages/editpage/([0-9]+)/$                  index.php?thamso=editPage&id=$1 [L]
+RewriteRule ^Admin/pages/deletepage/([0-9]+)/$                index.php?thamso=deletePage&id=$1 [L]
+RewriteRule ^Admin/pages/historypage/$                        index.php?thamso=historyPage [L]
+# Route to service
+RewriteRule ^Admin/services/listservice/$                     index.php?thamso=listService [L]
+RewriteRule ^Admin/services/addservice/$                      index.php?thamso=addService [L]
+RewriteRule ^Admin/services/editservice/([0-9]+)/$            index.php?thamso=editService&id=$1 [L]
+RewriteRule ^Admin/services/deleteservice/([0-9]+)/$          index.php?thamso=deleteService&id=$1 [L]
+RewriteRule ^Admin/services/historyservice/$                  index.php?thamso=historyService [L]
+# Route to partner
+RewriteRule ^Admin/partners/listpartner/$                     index.php?thamso=listPartner [L]
+RewriteRule ^Admin/partners/addpartner/$                      index.php?thamso=addPartner [L]
+RewriteRule ^Admin/partners/editpartner/([0-9]+)/$            index.php?thamso=editPartner&id=$1 [L]
+RewriteRule ^Admin/partners/deletepartner/([0-9]+)/$          index.php?thamso=deletePartner&id=$1 [L]
+RewriteRule ^Admin/partners/historypartner/$                  index.php?thamso=historyPartner [L]
+# Route to review
+RewriteRule ^Admin/reviews/listreview/$                       index.php?thamso=listReview [L]
+RewriteRule ^Admin/reviews/addreview/$                        index.php?thamso=addReview [L]
+RewriteRule ^Admin/reviews/editreview/([0-9]+)/$              index.php?thamso=editReview&id=$1 [L]
+RewriteRule ^Admin/reviews/deletereview/([0-9]+)/$            index.php?thamso=deleteReview&id=$1 [L]
+RewriteRule ^Admin/reviews/historyreview/$                    index.php?thamso=historyReview [L]
+# Route to comment
+RewriteRule ^Admin/comments/listcomment/$                     index.php?thamso=listComment [L]
+RewriteRule ^Admin/comments/addcomment/$                      index.php?thamso=addComment [L]
+RewriteRule ^Admin/comments/editcomment/([0-9]+)/$            index.php?thamso=editComment&id=$1 [L]
+RewriteRule ^Admin/comments/deletecomment/([0-9]+)/$          index.php?thamso=deleteComment&id=$1 [L]
+RewriteRule ^Admin/comments/historycomment/$                  index.php?thamso=historyComment [L]
+# Route to contact
+RewriteRule ^Admin/contacts/listcontact/$                     index.php?thamso=listContact [L]
+RewriteRule ^Admin/contacts/deletecontact/([0-9]+)/$          index.php?thamso=deleteContact&id=$1 [L]
+RewriteRule ^Admin/contacts/historycontact/$                  index.php?thamso=historyContact [L]
+RewriteRule ^Admin/contacts/viewcontact/([0-9]+)/$            index.php?thamso=viewContact&id=$1 [L]
+# Route to order
+RewriteRule ^Admin/orders/listorder/$                         index.php?thamso=listOrder [L]
+RewriteRule ^Admin/orders/addorder/$                          index.php?thamso=addOrder [L]
+RewriteRule ^Admin/orders/editorder/([0-9]+)/$                index.php?thamso=editOrder&id=$1 [L]
+RewriteRule ^Admin/orders/deleteorder/([0-9]+)/$              index.php?thamso=deleteOrder&id=$1 [L]
+RewriteRule ^Admin/orders/historyorder/$                      index.php?thamso=historyOrder [L]
+
+ErrorDocument 404 /index.php?thamso=notFound
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

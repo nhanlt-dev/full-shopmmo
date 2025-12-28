@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /Admin/
+Disallow: /ckeditor/
+Disallow: */ckfinder/*
+Disallow: /feed/
+Disallow: /_notes/
+Sitemap: https://quangbathuonghieu.com.vn/sitemap.xml
