@@ -11,7 +11,7 @@ include("src/meta/title_meta.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<base href="http://localhost/code-dvshop/">
+<base href="http://localhost/full-shopmmo/">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,7 +24,8 @@ include("src/meta/title_meta.php");
 	<meta name="twitter:title" content="<?= $titleMeta ?>" />
 	<meta name="twitter:description" content="<?= htmlspecialchars($descriptionMeta, ENT_QUOTES, 'UTF-8'); ?>" />
 	<meta name="twitter:image" content="https://<?= $_SERVER['SERVER_NAME']; ?>/<?= $imageMeta; ?>" />
-	<meta name="twitter:url" content="https://<?= $_SERVER['SERVER_NAME']; ?>/<?= htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'); ?>" />
+	<meta name="twitter:url"
+		content="https://<?= $_SERVER['SERVER_NAME']; ?>/<?= htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'); ?>" />
 	<meta name="keywords" content="<?= $keywordMeta; ?>" />
 	<meta name="description" content="<?= $descriptionMeta; ?>" />
 	<meta property="og:url" content="https://<?= $_SERVER['SERVER_NAME']; ?>/<?= $_SERVER['REQUEST_URI']; ?>" />

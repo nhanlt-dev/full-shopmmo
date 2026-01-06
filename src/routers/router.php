@@ -50,7 +50,7 @@ switch ($thamso) {
     case "policy":
         include("src/utils/Introduce/policy.php");
         break;
-        
+
     case "serviceDetail":
         include("src/contents/carts/checkoutDetail.php");
         break;
@@ -200,7 +200,7 @@ switch ($thamso) {
     case "historyComment":
         include("src/admin/comments/historyComment.php");
         break;
-        
+
     case "listContact":
         include("src/admin/contacts/listContact.php");
         break;
@@ -213,7 +213,7 @@ switch ($thamso) {
     case "viewContact":
         include("src/admin/contacts/viewContact.php");
         break;
-        
+
     case "listOrder":
         include("src/admin/orders/listOrder.php");
         break;
@@ -229,8 +229,8 @@ switch ($thamso) {
     case "historyOrder":
         include("src/admin/orders/historyOrder.php");
         break;
-        
-        
+
+
     case "deleteHistory":
         include("src/admin/config/deleteHistory.php");
         break;
