@@ -5,7 +5,8 @@ require_once 'src/utils/Contact/phpMailer/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-function generateRandomPassword($length = 8) {
+function generateRandomPassword($length = 8)
+{
     return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
 }
 
@@ -70,7 +71,6 @@ if (isset($_POST["recover"])) {
                 $update->execute();
 
                 showSuccessAltertModalID('Khôi Phục Thành Công', 'Chúng tôi đã gửi mật khẩu mới của bạn, vui lòng kiểm tra email của bạn!', 'modalLogin');
-
             } catch (Exception $e) {
                 showErrorAlert('Khôi Phục Mật Khẩu Thất Bại', 'Không thể gửi email. Vui lòng thử lại sau!');
             }
@@ -78,7 +78,7 @@ if (isset($_POST["recover"])) {
     } else {
         showErrorAlert('Lỗi', $errors[0]);
     }
-}?>
+} ?>
 <div class="modal modal-account fade" id="modalForgotPassword">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -93,18 +93,21 @@ if (isset($_POST["recover"])) {
                     </div>
                     <div class="box">
                         <fieldset class="box-fieldset">
-                            <div class="fxt-switcher-description1" id="masked-email"> Vui lòng nhập số điện thoại đã đăng ký tài khoản của bạn và email của bạn để chúng tôi cấp lại mật khẩu.</div>
+                            <div class="fxt-switcher-description1" id="masked-email"> Vui lòng nhập số điện thoại đã
+                                đăng ký tài khoản của bạn và email của bạn để chúng tôi cấp lại mật khẩu.</div>
                             <label for="nameAccount" class="mt2r">Số Điện Thoại</label>
                             <div class="form-group">
-                                <input type="text" id="number" class="form-control" name="number" placeholder="Nhập Số điện thoại đã tạo tài khoản..." required="required">
+                                <input type="text" id="number" class="form-control" name="number"
+                                    placeholder="Nhập Số điện thoại đã tạo tài khoản..." required="required">
                             </div>
                         </fieldset>
                         <fieldset class="box-fieldset">
-                             <label for="nameAccount">Email</label>
+                            <label for="nameAccount">Email</label>
                             <div class="form-group">
-                                <input type="email" id="email" class="form-control" name="email" placeholder="Nhập Email để nhận mật khẩu mới..." required="required">
+                                <input type="email" id="email" class="form-control" name="email"
+                                    placeholder="Nhập Email để nhận mật khẩu mới..." required="required">
                             </div>
-                            
+
                         </fieldset>
                     </div>
                     <div class="box box-btn">

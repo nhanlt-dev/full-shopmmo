@@ -3,8 +3,8 @@
         <div class="col-12">
             <div class="heading-section text-center mb-48">
                 <h2 class="title text-anime-wave">Các Khách Hàng Tiêu Biểu</h2>
-                <p class="text-1 wow animate__fadeInUp animate__animated" data-wow-duration="1.5s"
-                    data-wow-delay="0s">Cảm ơn các doanh nghiệp đã đồng hành và phát triển cùng chúng tôi.</p>
+                <p class="text-1 wow animate__fadeInUp animate__animated" data-wow-duration="1.5s" data-wow-delay="0s">
+                    Cảm ơn các doanh nghiệp đã đồng hành và phát triển cùng chúng tôi.</p>
             </div>
             <div class="wrap-neighborhoods">
                 <?php
@@ -13,7 +13,7 @@
                     $stmtLastPage->execute();
                     $resultLastPage = $stmtLastPage->get_result();
                     $LastPage = [];
-                
+
                     while ($rowPages = $resultLastPage->fetch_assoc()) {
                         $image = $rowPages['pageImageIntroduce'] ?: 'defaultIntroduce.jpg';
                         $LastPage[] = [
@@ -23,22 +23,26 @@
                             'pageImageIntroduce' => $image
                         ];
                     }
-                
+
                     $stmtLastPage->close();
                 } else {
                     die('Lỗi truy vấn: ' . $link->error);
                 }
-                
+
                 foreach ($LastPage as $lastpage): ?>
                     <div class="box-location hover-img ">
                         <div class="image-wrap">
                             <a href="<?= $lastpage['pageUrl'] ?>/">
-                                <img class="lazyload" data-src="src/docs/images/imageIntroduces/<?= $lastpage['pageImageIntroduce']?>" src="src/docs/images/imageIntroduces/<?= $lastpage['pageImageIntroduce']?>" alt="pageImageIntroduce">
+                                <img class="lazyload"
+                                    data-src="src/docs/images/imageIntroduces/<?= $lastpage['pageImageIntroduce'] ?>"
+                                    src="src/docs/images/imageIntroduces/<?= $lastpage['pageImageIntroduce'] ?>"
+                                    alt="pageImageIntroduce">
                             </a>
                         </div>
                         <div class="content">
                             <h6 class="text-white"><?= $lastpage['pageName'] ?></h6>
-                            <a href="<?= $lastpage['pageUrl'] ?>/" class="text-1 tf-btn style-border pd-23 text-white">Xem Thêm <i class="icon-arrow-right"></i></a>
+                            <a href="<?= $lastpage['pageUrl'] ?>/" class="text-1 tf-btn style-border pd-23 text-white">Xem
+                                Thêm <i class="icon-arrow-right"></i></a>
                         </div>
                     </div>
                 <?php endforeach; ?>
