@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'src/utils/Contact/phpMailer/PHPMailer.php';
 require_once 'src/utils/Contact/phpMailer/Exception.php';
 require_once 'src/utils/Contact/phpMailer/SMTP.php';
@@ -8,16 +7,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 if (isset($_POST['registerAccount'])) {
 
-    $userName            = trim($_POST['userName'] ?? '');
-    $phoneNumber         = trim($_POST['phoneNumber'] ?? '');
-    $userEmail           = trim($_POST['userEmail'] ?? '');
-    $userPassword        = $_POST['userPassword'] ?? '';
-    $userPasswordConfirm = $_POST['userPasswordConfirm'] ?? '';
+    $userName            = mysqli_real_escape_string($link, $_POST['userName'] ?? '');
+    $phoneNumber         = mysqli_real_escape_string($link, $_POST['phoneNumber'] ?? '');
+    $userEmail           = mysqli_real_escape_string($link, $_POST['userEmail'] ?? '');
+    $userPassword        = mysqli_real_escape_string($link, $_POST['userPassword'] ?? '');
+    $userPasswordConfirm = mysqli_real_escape_string($link, $_POST['userPasswordConfirm'] ?? '');
     $recaptcha_response  = $_POST['g-recaptcha-response'] ?? '';
 
     $errors = [];
 
-    /* ================== reCAPTCHA ================== */
+    /* ================= reCAPTCHA ================= */
     $secret_key = '6Lc-jEEsAAAAAEygQbi3GDZbjugzOIfUOMeP0Mr9';
     $verify = file_get_contents(
         "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$recaptcha_response}"
@@ -25,68 +24,64 @@ if (isset($_POST['registerAccount'])) {
     $response = json_decode($verify);
 
     if (!$response || !$response->success) {
-        showErrorAlert('Đăng Ký Thất Bại', 'reCAPTCHA không hợp lệ');
+        showErrorAlert('Đăng Ký Thất Bại', 'reCAPTCHA xác thực không thành công. Vui lòng thử lại.');
+        echo "<script>window.location.href='#modalRegister';</script>";
         exit;
     }
 
-    /* ================== VALIDATE ================== */
-    if ($userName == '') {
-        $errors[] = 'Tên người dùng không được để trống';
-    }
-
-    if (!filter_var($userEmail, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Email không hợp lệ';
-    }
-
+    /* ================= Validate ================= */
     if (!preg_match('/^\d{10}$/', $phoneNumber)) {
-        $errors[] = 'Số điện thoại phải đủ 10 chữ số';
+        showErrorAlertDirection(
+            'Lỗi',
+            'Số điện thoại không hợp lệ. Vui lòng nhập đúng 10 chữ số.',
+            "#modalRegister"
+        );
+        exit;
     }
-
-    if (strlen($userPassword) < 8 || strlen($userPassword) > 20) {
-        $errors[] = 'Mật khẩu từ 8–20 ký tự';
+    if (empty($userEmail)) {
+        $errors[] = "Email không được để trống";
+    } elseif (!filter_var($userEmail, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Email không đúng định dạng";
     }
-
-    if (!preg_match('/[A-Z]/', $userPassword)) {
-        $errors[] = 'Mật khẩu cần ít nhất 1 chữ in hoa';
+    if (strlen($userPassword) < 8) {
+        $errors[] = "Mật khẩu nên có ít nhất 8 ký tự";
+    } elseif (strlen($userPassword) > 20) {
+        $errors[] = "Mật khẩu tối đa 20 ký tự";
+    } elseif (!preg_match('/[A-Z]/', $userPassword)) {
+        $errors[] = "Mật khẩu cần ít nhất 1 ký tự in hoa";
+    } elseif (!preg_match('/[0-9]/', $userPassword)) {
+        $errors[] = "Mật khẩu cần ít nhất 1 chữ số";
+    } elseif ($userPassword !== $userPasswordConfirm) {
+        $errors[] = "Mật khẩu nhập lại không khớp";
     }
-
-    if (!preg_match('/[0-9]/', $userPassword)) {
-        $errors[] = 'Mật khẩu cần ít nhất 1 chữ số';
-    }
-
-    if ($userPassword !== $userPasswordConfirm) {
-        $errors[] = 'Mật khẩu nhập lại không khớp';
-    }
-
     if (!empty($errors)) {
-        showErrorAlert('Đăng Ký Thất Bại', implode('<br>', $errors));
+        foreach ($errors as $error) {
+            showErrorAlert('Đăng Ký Thất Bại', $error);
+        }
+        exit;
+    }
+    /* ================= Check tồn tại Phone / Email ================= */
+    $checkExist = "SELECT id FROM users
+                   WHERE userNumberPhone = '$phoneNumber'
+                      OR userEmail = '$userEmail'";
+    $resultExist = mysqli_query($link, $checkExist);
+
+    if (mysqli_num_rows($resultExist) > 0) {
+        showErrorAlert('Đăng Ký Thất Bại', 'Số điện thoại hoặc Email đã tồn tại!');
         exit;
     }
 
-    /* ================== CHECK DB ================== */
-    $sqlCheck = "
-        SELECT id FROM users
-        WHERE userNumberPhone = '$phoneNumber'
-        OR userEmail = '$userEmail'
-    ";
-    $check = mysqli_query($link, $sqlCheck);
+    /* ================= Hash Password ================= */
+    $hashed_password = password_hash($userPassword, PASSWORD_DEFAULT);
 
-    if (mysqli_num_rows($check) > 0) {
-        showErrorAlert('Đăng Ký Thất Bại', 'Email hoặc số điện thoại đã tồn tại');
-        exit;
-    }
-
-    /* ================== OTP ================== */
+    /* ================= OTP ================= */
     $otp = rand(100000, 999999);
 
-    $_SESSION['register'] = [
-        'otp'              => $otp,
-        'otp_created_at'   => time(),
-        'username'         => $userName,
-        'email'            => $userEmail,
-        'phonenumber'      => $phoneNumber,
-        'password'         => password_hash($userPassword, PASSWORD_DEFAULT)
-    ];
+    $_SESSION['register']['otp']         = $otp;
+    $_SESSION['register']['password']    = $hashed_password;
+    $_SESSION['register']['phonenumber'] = $phoneNumber;
+    $_SESSION['register']['username']    = $userName;
+    $_SESSION['register']['email']       = $userEmail; // ✅ thêm email
 
     $urlOTP = "https://api.abenla.com/api/SendSmsTemplate?" . http_build_query([
         'loginName'     => 'ABKGLLU',
@@ -98,39 +93,42 @@ if (isset($_POST['registerAccount'])) {
         'param_1'      => $otp
     ]);
 
-    $ch = curl_init($urlOTP);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false
-    ]);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $urlOTP);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
     $responseOTP = curl_exec($ch);
     curl_close($ch);
+
+    if ($responseOTP === false) {
+        showErrorAlert('Đăng Ký Thất Bại', 'Không thể kết nối đến API OTP');
+        exit;
+    }
 
     $dataOTP = json_decode($responseOTP, true);
 
     if (isset($dataOTP['Code']) && $dataOTP['Code'] == 106) {
         showSuccessAltertModalID(
             'Đăng Ký Thành Công',
-            'Mã OTP đã được gửi tới Zalo ' . $phoneNumber,
+            'Mã OTP đã được gửi đến Zalo ' . $phoneNumber,
             'modalVerify'
         );
     } else {
-        showErrorAlert('Gửi OTP thất bại', $dataOTP['Message'] ?? 'Không xác định');
+        $errorMessage = $dataOTP['Message'] ?? 'Không xác định';
+        showErrorAlert('Có lỗi khi gửi OTP', $errorMessage);
     }
 }
 ?>
-
-<!-- ===================== HTML ===================== -->
-<div class="modal modal-account fade" id="modalRegister" tabindex="-1" aria-hidden="true">
+<div class="modal modal-account fade" id="modalRegister">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="flat-account">
-
                 <div class="banner-account">
                     <img src="src/public/admin/images/section/banner-register.jpg" alt="banner">
                 </div>
 
-                <form class="form-account" method="POST" id="registerform" autocomplete="off">
+                <form class="form-account" method="POST" id="registerform">
                     <div class="title-box">
                         <h4>Đăng Ký</h4>
                         <span class="close-modal icon-close" data-bs-dismiss="modal"></span>
@@ -138,7 +136,7 @@ if (isset($_POST['registerAccount'])) {
 
                     <div class="box">
 
-                        <!-- USERNAME -->
+                        <!-- Tên người dùng -->
                         <fieldset class="box-fieldset">
                             <label for="usernameRegister">Tên Người Dùng</label>
                             <div class="ip-field">
@@ -148,7 +146,17 @@ if (isset($_POST['registerAccount'])) {
                             </div>
                         </fieldset>
 
-                        <!-- PHONE -->
+                        <!-- Email -->
+                        <fieldset class="box-fieldset">
+                            <label for="userEmail">Email</label>
+                            <div class="ip-field">
+                                <i class="fa-regular fa-envelope iconModal icon"></i>
+                                <input type="email" class="form-control" id="userEmail" name="userEmail"
+                                    placeholder="Hãy điền email của bạn..." required>
+                            </div>
+                        </fieldset>
+
+                        <!-- Số điện thoại -->
                         <fieldset class="box-fieldset">
                             <label for="phoneNumber">Số Điện Thoại</label>
                             <div class="ip-field">
@@ -158,17 +166,7 @@ if (isset($_POST['registerAccount'])) {
                             </div>
                         </fieldset>
 
-                        <!-- EMAIL (CỰC KỲ QUAN TRỌNG) -->
-                        <fieldset class="box-fieldset">
-                            <label for="userEmail">Email</label>
-                            <div class="ip-field">
-                                <i class="fa-regular fa-envelope iconModal icon"></i>
-                                <input type="email" class="form-control" id="userEmail" name="userEmail"
-                                    placeholder="Nhập email của bạn..." required autocomplete="email">
-                            </div>
-                        </fieldset>
-
-                        <!-- PASSWORD -->
+                        <!-- Mật khẩu -->
                         <fieldset class="box-fieldset">
                             <label for="passRegister">Mật Khẩu</label>
                             <div class="ip-field">
@@ -180,7 +178,7 @@ if (isset($_POST['registerAccount'])) {
                             </div>
                         </fieldset>
 
-                        <!-- CONFIRM PASSWORD -->
+                        <!-- Nhập lại mật khẩu -->
                         <fieldset class="box-fieldset">
                             <label for="confirm">Nhập Lại Mật Khẩu</label>
                             <div class="ip-field">
@@ -192,11 +190,10 @@ if (isset($_POST['registerAccount'])) {
                             </div>
                         </fieldset>
 
-                        <!-- RECAPTCHA -->
+                        <!-- reCAPTCHA -->
                         <fieldset class="box-fieldset">
                             <div class="g-recaptcha" data-sitekey="6Lc-jEEsAAAAAF2268nlvCJhJc_g6YkoiRLa3wYK"></div>
                         </fieldset>
-
                     </div>
 
                     <div class="box box-btn">
@@ -211,7 +208,6 @@ if (isset($_POST['registerAccount'])) {
                             </a>
                         </div>
                     </div>
-
                 </form>
 
             </div>
@@ -220,6 +216,7 @@ if (isset($_POST['registerAccount'])) {
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <script>
     function togglePasswordVisibility(inputId, icon) {
         const input = document.getElementById(inputId);
